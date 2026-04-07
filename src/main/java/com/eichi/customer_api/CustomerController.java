@@ -4,6 +4,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -14,7 +15,7 @@ public class CustomerController {
     }
     //Add customer
     @PostMapping
-    public ResponseEntity<Customer> creatCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer){
         Customer created = customerService.createCustomer(customer);
         return ResponseEntity.status(201).body(created);
     }
@@ -31,7 +32,7 @@ public class CustomerController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id,
-                                                  @RequestBody Customer customer){
+                                                  @Valid @RequestBody Customer customer){
         try {
             Customer update = customerService.updateCustomer(id,customer);
             return ResponseEntity.ok(update);
