@@ -65,3 +65,17 @@ DELETE
 - **Maven**
 
 ## 📐 專案架構
+src/main/java/com/eichi/customer_api/
+├── Customer.java # Entity — 資料模型
+├── CustomerRepository.java # Repository — 資料庫操作
+├── CustomerService.java # Service — 商業邏輯
+├── CustomerController.java # Controller — REST API
+└── CustomerApiApplication.java # 主程式入口
+
+
+## 🚀 啟動方式
+
+```bash
+git clone https://github.com/lil69samurai/crm-backend.git
+cd crm-backend
+./mvnw spring-boot:run
