@@ -4,6 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -21,22 +24,16 @@ public class CustomerController {
     }
     //Return ResponseDTO List
     @GetMapping
-    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(
+    public ResponseEntity<Page<CustomerResponseDTO>> getAllCustomers(
         @RequestParam(required = false) String name,
-        @RequestParam(required = false) String email) {
-        List<Customer> customers;
+        @RequestParam(required = false) String email,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10")int size) {
 
-        if (name != null ||email != null){
-        customers = customerService.searchCustomers(name,email);
-        } else {
-            customers = customerService.getAllCustomers();
-        }
-
-            List<CustomerResponseDTO> response = customers.stream()
-                    .map(CustomerResponseDTO::new)
-                    .toList();
-
-            return ResponseEntity.ok(response);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Customer> customers = customerService.getCustomers(name, email, pageable);
+        Page<CustomerResponseDTO> response = customers.map(CustomerResponseDTO::new);
+        return ResponseEntity.ok(response);
         }
 
     //Return RequestDTO

@@ -3,6 +3,8 @@ package com.eichi.customer_api;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class CustomerService {
@@ -49,7 +51,12 @@ public class CustomerService {
     }
     //Search
     public List<Customer> searchCustomers(String name, String email){
-        return customerRepository.searchCustomer(name, email);
+        return customerRepository.searchCustomers(name, email);
+    }
+
+    //Search+Pagination
+    public Page<Customer> getCustomers(String name, String email, Pageable pageable){
+        return customerRepository.searchCustomers(name, email, pageable);
     }
 }
 
