@@ -1,6 +1,5 @@
 package com.eichi.customer_api;
 
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -13,30 +12,38 @@ public class CustomerController {
     public CustomerController(CustomerService customerService){
         this.customerService = customerService;
     }
-    //Add customer
+    //Accept RequestDTO, Return ResponseDTO
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer){
-        Customer created = customerService.createCustomer(customer);
-        return ResponseEntity.status(201).body(created);
+    public ResponseEntity<CustomerResponseDTO> createCustomer(
+            @Valid @RequestBody CustomerRequestDTO dto){
+        Customer created = customerService.createCustomer(dto);
+        return ResponseEntity.status(201).body(new CustomerResponseDTO(created));
     }
+    //Return ResponseDTO List
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers(){
-        List<Customer> customers = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(){
+        List<CustomerResponseDTO> customers = customerService.getAllCustomers()
+                .stream()
+                .map(CustomerResponseDTO::new)
+                .toList();
         return ResponseEntity.ok(customers);
     }
+    //Return RequestDTO
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id){
+    public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id)
-                .map(ResponseEntity::ok)
+                .map(customer -> ResponseEntity.ok(new CustomerResponseDTO(customer)))
                 .orElse(ResponseEntity.notFound().build());
     }
+    //Accept RequestDTO
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id,
-                                                  @Valid @RequestBody Customer customer){
+    public ResponseEntity<CustomerResponseDTO> updateCustomer(
+            @PathVariable Long id,
+            @Valid @RequestBody CustomerRequestDTO dto){
         try {
-            Customer update = customerService.updateCustomer(id,customer);
-            return ResponseEntity.ok(update);
-        }catch (RuntimeException e){
+            Customer updated = customerService.updateCustomer(id, dto);
+            return ResponseEntity.ok(new CustomerResponseDTO(updated));
+        } catch (RuntimeException e){
             return ResponseEntity.notFound().build();
         }
     }

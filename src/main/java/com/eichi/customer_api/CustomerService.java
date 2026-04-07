@@ -11,8 +11,13 @@ public class CustomerService {
     public CustomerService(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
+
     //Create — 新增客戶
-    public Customer createCustomer(Customer customer) {
+    public Customer createCustomer(CustomerRequestDTO dto) {
+        Customer customer = new Customer();
+        customer.setName(dto.getName());
+        customer.setEmail(dto.getEmail());
+        customer.setPhone(dto.getPhone());
         return customerRepository.save(customer);
     }
     //Search — 查詢客戶
@@ -25,20 +30,20 @@ public class CustomerService {
     }
 
     //Update — 修改客戶
-    public Customer updateCustomer(Long id, Customer updatedData) {
+    public Customer updateCustomer(Long id, CustomerRequestDTO dto) {
         Customer existing = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("找不到客戶 ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
 
-        existing.setName(updatedData.getName());
-        existing.setEmail(updatedData.getEmail());
-        existing.setPhone(updatedData.getPhone());
+        existing.setName(dto.getName());
+        existing.setEmail(dto.getEmail());
+        existing.setPhone(dto.getPhone());
 
         return customerRepository.save(existing);
     }
     //Delete — 刪除客戶
     public void deleteCustomer(Long id) {
         if (!customerRepository.existsById(id)) {
-            throw new RuntimeException("找不到客戶 ID: " + id);
+            throw new RuntimeException("ID not found: " + id);
         }
         customerRepository.deleteById(id);
     }
