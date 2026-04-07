@@ -47,7 +47,10 @@ public class CustomerService {
         }
         customerRepository.deleteById(id);
     }
-
+    //Search
+    public List<Customer> searchCustomers(String name, String email){
+        return customerRepository.searchCustomer(name, email);
+    }
 }
 
 

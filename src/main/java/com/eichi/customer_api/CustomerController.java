@@ -21,13 +21,24 @@ public class CustomerController {
     }
     //Return ResponseDTO List
     @GetMapping
-    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(){
-        List<CustomerResponseDTO> customers = customerService.getAllCustomers()
-                .stream()
-                .map(CustomerResponseDTO::new)
-                .toList();
-        return ResponseEntity.ok(customers);
-    }
+    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) String email) {
+        List<Customer> customers;
+
+        if (name != null ||email != null){
+        customers = customerService.searchCustomers(name,email);
+        } else {
+            customers = customerService.getAllCustomers();
+        }
+
+            List<CustomerResponseDTO> response = customers.stream()
+                    .map(CustomerResponseDTO::new)
+                    .toList();
+
+            return ResponseEntity.ok(response);
+        }
+
     //Return RequestDTO
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id){
