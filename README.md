@@ -1,80 +1,107 @@
-# 🏢 CRM Backend — 客戶管理系統
+# CRM Backend API - 客戶管理系統
 
-使用 Spring Boot 開發的簡化版 CRM（客戶關係管理）系統後端 API。
+A simplified CRM backend system built with Spring Boot for customer management.
+(使用 Spring Boot 開發的簡化版 CRM 客戶關係管理系統後端 API。)
 
-## 📋 功能
+## Features 功能
 
-|
-功能
-|
-HTTP 方法
-|
-端點
-|
-|
-------
+- Create customer
+- Get all customers
+- Get customer by ID
+- Update customer
+- Delete customer
+- Search customers by name and email
+- Pagination support
+- Request validation
+- Global exception handling
+- Swagger/OpenAPI documentation
 
-------
+## API Endpoints
+|
+Method
+|
+Endpoint
+|
+Description
 |
 |
-新增客戶
-|
-POST
-|
-`/api/customers`
-
-|
-|
-查詢全部客戶
-|
-GET
-|
-`/api/customers`
 
 |
+POST 新增客戶
 |
-查詢單一客戶
+/api/customers
 |
-GET
+Create a customer
 |
-`/api/customers/{id}`
 
 |
+GET 查詢全部客戶
 |
-修改客戶
+/api/customers
 |
-PUT
+Get customers with search and pagination
 |
-`/api/customers/{id}`
 
 |
+GET 查詢單一客戶
 |
-刪除客戶
+/api/customers/{id}
 |
-DELETE
+Get customer by ID
 |
-`/api/customers/{id}`
+
+|
+PUT 修改客戶
+|
+/api/customers/{id}
+|
+Update customer
+|
+
+|
+DELETE 刪除客戶
+|
+/api/customers/{id}
+|
+Delete customer
+|
+
+## Tech Stack 技術棧
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- H2 Database
+- Maven
+- Swagger / OpenAPI
 
 
-## 🛠 技術棧
-
-- **Java 17**
-- **Spring Boot 3.x**
-- **Spring Data JPA**
-- **H2 Database**
-- **Maven**
-
-## 📐 專案架構
+## Project Structure 專案架構
 src/main/java/com/eichi/customer_api/
-├── Customer.java # Entity — 資料模型
-├── CustomerRepository.java # Repository — 資料庫操作
-├── CustomerService.java # Service — 商業邏輯
-├── CustomerController.java # Controller — REST API
-└── CustomerApiApplication.java # 主程式入口
+- Customer.java
+- CustomerController.java
+- CustomerService.java
+- CustomerRepository.java
+- CustomerRequestDTO.java
+- CustomerResponseDTO.java
+- GlobalExceptionHandler.java
+- OpenApiConfig.java
 
 
-## 🚀 啟動方式
+## Search and Pagination Examples
+- `/api/customers?name=田中`
+- `/api/customers?email=gmail`
+- `/api/customers?page=0&size=5`
+- `/api/customers?name=田中&page=0&size=2`
 
+## Future Improvements
+- Replace H2 with MySQL
+- Add unit and integration tests
+- Add authentication and authorization with Spring Security
+- Dockerize the application
+- Deploy to cloud platform
+
+
+## Run Locally 啟動方式
 ```bash
 git clone https://github.com/lil69samurai/crm-backend.git
 cd crm-backend

@@ -1,5 +1,7 @@
 package com.eichi.customer_api;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -10,12 +12,15 @@ import org.springframework.data.domain.PageRequest;
 
 @RestController
 @RequestMapping("/api/customers")
+@Tag(name = "Customer API", description = "Operation for managing customers")
+
 public class CustomerController {
     private final CustomerService customerService;
     public CustomerController(CustomerService customerService){
         this.customerService = customerService;
     }
     //Accept RequestDTO, Return ResponseDTO
+    @Operation(summary = "Create a customer", description = "Create a new customer record")
     @PostMapping
     public ResponseEntity<CustomerResponseDTO> createCustomer(
             @Valid @RequestBody CustomerRequestDTO dto){
@@ -23,6 +28,7 @@ public class CustomerController {
         return ResponseEntity.status(201).body(new CustomerResponseDTO(created));
     }
     //Return ResponseDTO List
+    @Operation(summary = "Create a customer", description = "Create a new customer record")
     @GetMapping
     public ResponseEntity<Page<CustomerResponseDTO>> getAllCustomers(
         @RequestParam(required = false) String name,
@@ -37,6 +43,7 @@ public class CustomerController {
         }
 
     //Return RequestDTO
+    @Operation(summary = "Create a customer", description = "Create a new customer record")
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id)
@@ -44,6 +51,7 @@ public class CustomerController {
                 .orElse(ResponseEntity.notFound().build());
     }
     //Accept RequestDTO
+    @Operation(summary = "Create a customer", description = "Create a new customer record")
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> updateCustomer(
             @PathVariable Long id,
@@ -55,6 +63,7 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         }
     }
+    @Operation(summary = "Create a customer", description = "Create a new customer record")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCostomer(@PathVariable Long id){
         try{
