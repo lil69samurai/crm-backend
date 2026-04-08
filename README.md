@@ -100,6 +100,10 @@ src/main/java/com/eichi/customer_api/
 - Dockerize the application
 - Deploy to cloud platform
 
+![Swagger UI](docs/images/swagger-ui.png)
+![Create Customer](docs/images/postman-create-customer.png)
+![Search Pagination](docs/images/postman-search-pagination.png)
+![Project Structure](docs/images/project-structure.png)
 
 ## Run Locally 啟動方式
 ```bash
