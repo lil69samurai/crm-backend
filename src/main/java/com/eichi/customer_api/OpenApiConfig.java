@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,7 @@ public class OpenApiConfig {
     public OpenAPI customerApiOpenAPI(){
         final String securitySchemeName = "bearerAuth";
         return new OpenAPI()
+                .addServersItem(new Server().url("/"))
                 .info(new Info()
                         .title("CRM Backend API")
                         .description("A simplified CRM backend build with Spring Boot")
