@@ -3,6 +3,7 @@ package com.eichi.customer_api;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -10,13 +11,17 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    // 產生一把安全的加密金鑰 (每次重啟伺服器會換一把新的，適合目前開發測試用)
+    // Read the fixed key from application.properties
+    @Value("${jwt.secret}")
+    private String secretString;
+
+    // Generate a secure cryptographic key
     private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    // 設定 JWT 的有效期限為 1 天 (86,400,000 毫秒)
+    // Set the validity period of JWT to 1 day. (86,400,000 毫秒)
     private final long expirationMs = 86400000;
 
-    // ✅ 1. Create JWT Token
+    //1. Create JWT Token
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username) // 把帳號塞進 Token 裡面
@@ -25,7 +30,7 @@ public class JwtUtil {
                 .signWith(secretKey) // 用我們的金鑰加密簽名
                 .compact();
     }
-    // ✅ 2. 看懂鑰匙 (從 Token 拿出帳號名稱)
+    //2. Extracting the account name from the token
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
@@ -34,13 +39,13 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
-    // ✅ 3. 辨識真偽 (驗證 Token 是否合法/有沒有過期)
+    //3. Verify authenticity (check if the token is valid/has expired).
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            // 如果過期、被竄改、格式錯誤，就會跑到這裡回傳 false
+            // If the file is expired, altered, or has an incorrect format, it will be returned here as a false error.
             return false;
         }
     }
