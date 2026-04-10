@@ -15,6 +15,8 @@ public class OpenApiConfig {
     public OpenAPI customerApiOpenAPI(){
         final String securitySchemeName = "bearerAuth";
         return new OpenAPI()
+                // 🔥 強制指定：雲端環境使用 HTTPS 網址 (解決 CORS 與 Failed to fetch 錯誤)
+                .addServersItem(new Server().url("https://crm-backend-production-c4a7.up.railway.app").description("Production Server"))
                 .addServersItem(new Server().url("/"))
                 .info(new Info()
                         .title("CRM Backend API")
