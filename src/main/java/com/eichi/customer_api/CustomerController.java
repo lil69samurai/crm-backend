@@ -22,15 +22,18 @@ public class CustomerController {
     //Accept RequestDTO, Return ResponseDTO
     @Operation(summary = "Create a customer", description = "Create a new customer record")
     @PostMapping
-    public ResponseEntity<CustomerResponseDTO> createCustomer(
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> createCustomer(
             @Valid @RequestBody CustomerRequestDTO dto){
         Customer created = customerService.createCustomer(dto);
-        return ResponseEntity.status(201).body(new CustomerResponseDTO(created));
+        CustomerResponseDTO responseDto = new CustomerResponseDTO(created);
+        return ResponseEntity.status(201).body(ApiResponse.success("Customer created successfully", responseDto));
+
+//        return ResponseEntity.status(201).body(new CustomerResponseDTO(created));
     }
     //Return ResponseDTO List
     @Operation(summary = "Create a customer", description = "Create a new customer record")
     @GetMapping
-    public ResponseEntity<Page<CustomerResponseDTO>> getAllCustomers(
+    public ResponseEntity<ApiResponse<Page<CustomerResponseDTO>>> getAllCustomers(
         @RequestParam(required = false) String name,
         @RequestParam(required = false) String email,
         @RequestParam(defaultValue = "0") int page,
@@ -38,8 +41,8 @@ public class CustomerController {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<Customer> customers = customerService.getCustomers(name, email, pageable);
-        Page<CustomerResponseDTO> response = customers.map(CustomerResponseDTO::new);
-        return ResponseEntity.ok(response);
+        Page<CustomerResponseDTO> responseData = customers.map(CustomerResponseDTO::new);
+        return ResponseEntity.ok(ApiResponse.success("Customers retrieved successfully", responseData));
         }
 
     //Return RequestDTO
