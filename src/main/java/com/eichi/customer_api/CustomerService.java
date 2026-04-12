@@ -34,7 +34,7 @@ public class CustomerService {
     //Update — 修改客戶
     public Customer updateCustomer(Long id, CustomerRequestDTO dto) {
         Customer existing = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
 
         existing.setName(dto.getName());
         existing.setEmail(dto.getEmail());
@@ -45,7 +45,7 @@ public class CustomerService {
     //Delete — 刪除客戶
     public void deleteCustomer(Long id) {
         if (!customerRepository.existsById(id)) {
-            throw new RuntimeException("ID not found: " + id);
+            throw new ResourceNotFoundException("Customer not found with id: " + id);
         }
         customerRepository.deleteById(id);
     }

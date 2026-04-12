@@ -127,7 +127,7 @@ class CustomerServiceTest {
 
         when(customerRepository.findById(1L)).thenReturn(Optional.empty());
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () ->
                 customerService.updateCustomer(1L, updateDto)
         );
 
@@ -152,11 +152,11 @@ class CustomerServiceTest {
     void shouldThrowExceptionWhenDeletingNonExistingCustomer() {
         when(customerRepository.existsById(1L)).thenReturn(false);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () ->
                 customerService.deleteCustomer(1L)
         );
 
-        assertEquals("ID not found: 1", exception.getMessage());
+        assertEquals("Customer not found with id: 1", exception.getMessage());
 
         verify(customerRepository, times(1)).existsById(1L);
         verify(customerRepository, never()).deleteById(anyLong());
