@@ -15,6 +15,8 @@ A simplified CRM backend system built with Spring Boot for customer management.
 - Request validation
 - Global exception handling
 - Swagger/OpenAPI documentation
+- CORS configuration for frontend integration
+
 
 ## API Endpoints
 |
@@ -73,19 +75,25 @@ Delete customer
 - H2 Database
 - Maven
 - Swagger / OpenAPI
+- JUnit 5 + Mockito
+
 
 
 ## Project Structure 專案架構
 src/main/java/com/eichi/customer_api/
-- Customer.java
-- CustomerController.java
-- CustomerService.java
-- CustomerRepository.java
-- CustomerRequestDTO.java
-- CustomerResponseDTO.java
-- GlobalExceptionHandler.java
-- OpenApiConfig.java
+- Customer.java // Entity
+- CustomerController.java // REST Controller
+- CustomerService.java // Business Logic
+- CustomerRepository.java //Data Access
+- CustomerRequestDTO.java // Request DTO
+- CustomerResponseDTO.java // Response DTO
+- GlobalExceptionHandler.java // Global Exception Handle
+- ResourceNotFoundException.java // Custom Exception
+- OpenApiConfig.java // Swagger Configuration
+- WebConfig.java // CORS Configuration
 
+src/test/java/com/eichi/customer_api/
+└── CustomerServiceTest.java // Unit Tests (JUnit 5 + Mockito)
 
 ## Search and Pagination Examples
 - `/api/customers?name=田中`
@@ -94,16 +102,24 @@ src/main/java/com/eichi/customer_api/
 - `/api/customers?name=田中&page=0&size=2`
 
 ## Future Improvements
-- Replace H2 with MySQL
-- Add unit and integration tests
-- Add authentication and authorization with Spring Security
+- Replace H2 with MySQL / PostgreSQL
+- Add integration tests
+- Add authentication and authorization with Spring Security + JWT
 - Dockerize the application
-- Deploy to cloud platform
+- Deploy to cloud platform (AWS / GCP)
 
+## Screenshots
 ![Swagger UI](docs/images/swagger-ui.png)
 ![Create Customer](docs/images/postman-create-customer.png)
 ![Search Pagination](docs/images/postman-search-pagination.png)
 ![Project Structure](docs/images/project-structure.png)
+
+## Run Test
+./mvnw test
+
+## Swagger UI
+http://localhost:8080/swagger-ui.html
+
 
 ## Run Locally 啟動方式
 ```bash
